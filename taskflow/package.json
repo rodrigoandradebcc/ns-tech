@@ -1,0 +1,12 @@
+{
+  "name": "taskflow",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:api": "pnpm --filter api run start:dev",
+    "dev:web": "pnpm --filter web run dev"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@nestjs/core", "unrs-resolver", "@prisma/engines", "prisma", "esbuild", "@prisma/client"]
+  }
+}
