@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/features/auth/auth.store';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3333/api',
+  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3333/api',
 });
 
 api.interceptors.request.use((config) => {
