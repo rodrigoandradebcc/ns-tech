@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { z } from 'zod';
@@ -34,6 +35,8 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function Register() {
   const { register: registerUser } = useAuth();
+
+  useEffect(() => { document.title = 'Criar conta — TaskFlow Pro'; }, []);
 
   const {
     register,

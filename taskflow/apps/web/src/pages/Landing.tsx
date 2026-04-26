@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
@@ -8,6 +8,7 @@ import {
   Check,
   ArrowRight,
   Kanban,
+  Menu,
 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +18,13 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -176,6 +184,8 @@ function KanbanMockup() {
 
 function Navbar() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
@@ -184,15 +194,72 @@ function Navbar() {
           <span>TaskFlow Pro</span>
         </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
           <a href="#features" className="transition-colors hover:text-foreground">Features</a>
           <a href="#pricing" className="transition-colors hover:text-foreground">Preços</a>
           <a href="#faq" className="transition-colors hover:text-foreground">FAQ</a>
         </nav>
 
-        <div className="flex items-center gap-2">
+        {/* Desktop CTA */}
+        <div className="hidden items-center gap-2 md:flex">
           <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>Entrar</Button>
           <Button size="sm" onClick={() => navigate('/register')}>Começar grátis</Button>
+        </div>
+
+        {/* Mobile hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger render={<Button variant="ghost" size="icon" aria-label="Abrir menu" />}>
+              <Menu className="size-5" />
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64 p-0">
+              <SheetHeader className="border-b border-border px-6 py-4">
+                <SheetTitle className="flex items-center gap-2 text-sm font-semibold">
+                  <Kanban className="size-4 text-primary" />
+                  TaskFlow Pro
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-1 p-4">
+                <a
+                  href="#features"
+                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  onClick={() => setOpen(false)}
+                >
+                  Features
+                </a>
+                <a
+                  href="#pricing"
+                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  onClick={() => setOpen(false)}
+                >
+                  Preços
+                </a>
+                <a
+                  href="#faq"
+                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  onClick={() => setOpen(false)}
+                >
+                  FAQ
+                </a>
+              </nav>
+              <div className="flex flex-col gap-2 border-t border-border p-4">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => { navigate('/login'); setOpen(false); }}
+                >
+                  Entrar
+                </Button>
+                <Button
+                  className="w-full"
+                  onClick={() => { navigate('/register'); setOpen(false); }}
+                >
+                  Começar grátis
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
@@ -434,6 +501,10 @@ function Footer() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Landing() {
+  useEffect(() => {
+    document.title = 'TaskFlow Pro — Kanban simples para times que entregam';
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
