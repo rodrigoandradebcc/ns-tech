@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
@@ -31,6 +31,8 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function Login() {
   const { login } = useAuth();
   const [apiError, setApiError] = useState<string | null>(null);
+
+  useEffect(() => { document.title = 'Entrar — TaskFlow Pro'; }, []);
 
   const {
     register,
