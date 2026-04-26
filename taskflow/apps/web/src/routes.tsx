@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from '@/components/layout/ProtectedRoute';
 import PublicOnlyRoute from '@/components/layout/PublicOnlyRoute';
+import AppShell from '@/components/layout/AppShell';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
@@ -19,8 +20,10 @@ export default function AppRoutes() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<AppShell />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFound />} />
