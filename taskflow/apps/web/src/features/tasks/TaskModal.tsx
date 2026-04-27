@@ -40,7 +40,7 @@ const taskSchema = z.object({
   description: z.string().optional(),
   status: z.enum(['BACKLOG', 'IN_PROGRESS', 'REVIEW', 'DONE']),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']),
-  tags: z.array(z.string()).default([]),
+  tags: z.array(z.string()),
   dueDate: z
     .date()
     .min(startOfToday(), { message: 'Data não pode ser passada' })
