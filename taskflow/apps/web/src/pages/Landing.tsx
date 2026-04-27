@@ -12,6 +12,7 @@ import {
   Menu,
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
 import {
   Accordion,
@@ -449,6 +450,7 @@ function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
             Entrar
           </Button>
@@ -459,6 +461,7 @@ function Navbar() {
 
         {/* Mobile hamburger */}
         <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               render={
