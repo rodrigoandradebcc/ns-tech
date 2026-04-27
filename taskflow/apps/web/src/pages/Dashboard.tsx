@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { AlertCircle, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,22 @@ const PRIORITIES: { value: TaskPriority; label: string }[] = [
   { value: 'HIGH', label: 'Alta' },
   { value: 'URGENT', label: 'Urgente' },
 ] as const;
+
+function FilterBadge({ selected, onClick, children }: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <Badge
+      variant={selected ? 'default' : 'outline'}
+      className="cursor-pointer select-none"
+      onClick={onClick}
+    >
+      {children}
+    </Badge>
+  );
+}
 
 function BoardSkeleton() {
   return (
@@ -156,28 +172,26 @@ export default function Dashboard() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
         {PRIORITIES.map(({ value, label }) => (
-          <Badge
+          <FilterBadge
             key={value}
-            variant={selectedPriorities.includes(value) ? 'default' : 'outline'}
-            className="cursor-pointer select-none"
+            selected={selectedPriorities.includes(value)}
             onClick={() => togglePriority(value)}
           >
             {label}
-          </Badge>
+          </FilterBadge>
         ))}
 
         {allTags.length > 0 && (
           <>
             <span className="h-4 w-px bg-border" aria-hidden="true" />
             {allTags.map((tag) => (
-              <Badge
+              <FilterBadge
                 key={tag}
-                variant={selectedTags.includes(tag) ? 'default' : 'outline'}
-                className="cursor-pointer select-none"
+                selected={selectedTags.includes(tag)}
                 onClick={() => toggleTag(tag)}
               >
                 {tag}
-              </Badge>
+              </FilterBadge>
             ))}
           </>
         )}

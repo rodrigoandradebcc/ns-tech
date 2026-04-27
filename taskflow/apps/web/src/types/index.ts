@@ -1,3 +1,6 @@
+export type { TaskStatus, TaskPriority } from '@/enums/task.enums';
+import type { TaskStatus, TaskPriority } from '@/enums/task.enums';
+
 export interface User {
   id: string;
   email: string;
@@ -7,9 +10,6 @@ export interface User {
   createdAt: string;
   updatedAt: string;
 }
-
-export type TaskStatus = 'BACKLOG' | 'IN_PROGRESS' | 'REVIEW' | 'DONE' | 'ARCHIVED';
-export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
 
 export interface Task {
   id: string;

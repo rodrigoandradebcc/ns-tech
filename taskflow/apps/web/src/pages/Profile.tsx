@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -16,22 +15,7 @@ import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/features/auth/auth.store';
 import { useTheme } from '@/hooks/use-theme';
 import { useUpdateProfile, type UpdateProfileData } from '@/features/profile/use-update-profile';
-
-// ---------------------------------------------------------------------------
-// Zod schema
-// ---------------------------------------------------------------------------
-
-const profileSchema = z.object({
-  name: z.string().min(2, 'Mínimo 2 caracteres'),
-  email: z.string().email('Email inválido'),
-  avatarUrl: z
-    .string()
-    .optional()
-    .refine((v) => !v || /^https?:\/\/.+/.test(v), { message: 'URL inválida' }),
-  bio: z.string().max(200, 'Máximo 200 caracteres').optional(),
-});
-
-type ProfileFormValues = z.infer<typeof profileSchema>;
+import { profileSchema, type ProfileFormValues } from '@/schemas/profile.schema';
 
 // ---------------------------------------------------------------------------
 // Preferences helpers (module scope — no re-creation on each render)

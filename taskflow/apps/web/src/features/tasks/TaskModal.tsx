@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm, Controller, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 import { X, CalendarIcon, Archive, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -28,26 +27,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { useCreateTask, useUpdateTask, useArchiveTask } from '@/features/tasks/use-tasks';
 import type { Task, TaskStatus } from '@/types';
-
-function startOfToday() {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
-const taskSchema = z.object({
-  title: z.string().min(3, 'Mínimo 3 caracteres'),
-  description: z.string().optional(),
-  status: z.enum(['BACKLOG', 'IN_PROGRESS', 'REVIEW', 'DONE']),
-  priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']),
-  tags: z.array(z.string()),
-  dueDate: z
-    .date()
-    .min(startOfToday(), { message: 'Data não pode ser passada' })
-    .optional(),
-});
-
-type TaskFormValues = z.infer<typeof taskSchema>;
+import { taskSchema, type TaskFormValues } from '@/schemas/task.schema';
+import { STATUS_LABELS, PRIORITY_LABELS, PRIORITY_COLORS } from '@/enums/task.enums';
 
 function buildDefaults(task?: Task, defaultStatus?: TaskStatus): TaskFormValues {
   if (task) {
@@ -69,27 +50,6 @@ function buildDefaults(task?: Task, defaultStatus?: TaskStatus): TaskFormValues 
     dueDate: undefined,
   };
 }
-
-const STATUS_LABELS: Record<string, string> = {
-  BACKLOG: 'Backlog',
-  IN_PROGRESS: 'Em Progresso',
-  REVIEW: 'Review',
-  DONE: 'Concluído',
-};
-
-const PRIORITY_LABELS: Record<string, string> = {
-  LOW: 'Baixa',
-  MEDIUM: 'Média',
-  HIGH: 'Alta',
-  URGENT: 'Urgente',
-};
-
-const PRIORITY_COLORS: Record<string, string> = {
-  LOW: 'text-muted-foreground',
-  MEDIUM: 'text-blue-600 dark:text-blue-400',
-  HIGH: 'text-orange-600 dark:text-orange-400',
-  URGENT: 'text-red-600 dark:text-red-400',
-};
 
 interface TaskModalProps {
   open: boolean;
