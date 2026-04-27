@@ -536,21 +536,21 @@ function Hero() {
       <div className="flex flex-1 flex-col gap-6 text-center lg:text-left">
         <Badge
           variant="secondary"
-          className="mx-auto w-fit lg:mx-0 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-500"
+          className="mx-auto w-fit lg:mx-0 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700 motion-safe:[animation-fill-mode:both]"
         >
           Novo · Drag &amp; drop com reordenação automática
         </Badge>
-        <h1 className="font-['Inter'] text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 motion-safe:delay-150">
+        <h1 className="font-['Inter'] text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700 motion-safe:delay-100 motion-safe:[animation-fill-mode:both]">
           Kanban simples para
           <br className="hidden sm:block" />
           <span className="text-primary"> times que entregam</span>
         </h1>
-        <p className="max-w-lg text-lg leading-relaxed text-muted-foreground mx-auto lg:mx-0 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 motion-safe:delay-300">
+        <p className="max-w-lg text-lg leading-relaxed text-muted-foreground mx-auto lg:mx-0 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700 motion-safe:delay-200 motion-safe:[animation-fill-mode:both]">
           Pare de perder tempo configurando ferramentas. Com o TaskFlow Pro você
           organiza tarefas, acompanha o progresso e entrega mais — em menos de
           30 segundos.
         </p>
-        <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 motion-safe:delay-500">
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:duration-700 motion-safe:delay-300 motion-safe:[animation-fill-mode:both]">
           <Button
             size="lg"
             className="gap-2"
@@ -566,12 +566,12 @@ function Hero() {
             Ver como funciona
           </a>
         </div>
-        <p className="text-xs text-muted-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:duration-700 motion-safe:delay-700">
+        <p className="text-xs text-muted-foreground motion-safe:animate-in motion-safe:fade-in motion-safe:duration-700 motion-safe:delay-500 motion-safe:[animation-fill-mode:both]">
           Sem cartão de crédito · Plano Free para sempre
         </p>
       </div>
 
-      <div className="flex flex-1 items-center justify-center motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-right-8 motion-safe:duration-700 motion-safe:delay-300">
+      <div className="flex flex-1 items-center justify-center motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-right-4 motion-safe:duration-700 motion-safe:delay-150 motion-safe:[animation-fill-mode:both]">
         <KanbanMockup />
       </div>
     </section>
