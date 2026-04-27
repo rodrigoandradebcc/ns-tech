@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
@@ -112,7 +112,7 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
     reset,
     formState: { errors },
   } = useForm<TaskFormValues>({
-    resolver: zodResolver(taskSchema),
+    resolver: zodResolver(taskSchema) as unknown as Resolver<TaskFormValues>,
     defaultValues: buildDefaults(task, defaultStatus),
   });
 
