@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import Board from '@/features/board/Board';
 import TaskModal from '@/features/tasks/TaskModal';
@@ -37,6 +38,7 @@ function BoardSkeleton() {
 
 export default function Dashboard() {
   const { data, isLoading, isError, refetch } = useTasks();
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedPriorities, setSelectedPriorities] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [firstModalOpen, setFirstModalOpen] = useState(false);
@@ -56,14 +58,16 @@ export default function Dashboard() {
 
   const filteredTasks = useMemo(() => {
     let result = activeTasks;
+    const q = searchQuery.trim().toLowerCase();
+    if (q) result = result.filter((t) => t.title.toLowerCase().includes(q) || t.description?.toLowerCase().includes(q));
     if (selectedPriorities.length > 0)
       result = result.filter((t) => selectedPriorities.includes(t.priority));
     if (selectedTags.length > 0)
       result = result.filter((t) => selectedTags.some((tag) => t.tags.includes(tag)));
     return result;
-  }, [activeTasks, selectedPriorities, selectedTags]);
+  }, [activeTasks, searchQuery, selectedPriorities, selectedTags]);
 
-  const hasActiveFilters = selectedPriorities.length > 0 || selectedTags.length > 0;
+  const hasActiveFilters = searchQuery.trim().length > 0 || selectedPriorities.length > 0 || selectedTags.length > 0;
 
   function togglePriority(value: string) {
     setSelectedPriorities((prev) =>
@@ -78,6 +82,7 @@ export default function Dashboard() {
   }
 
   function clearFilters() {
+    setSearchQuery('');
     setSelectedPriorities([]);
     setSelectedTags([]);
   }
@@ -137,8 +142,19 @@ export default function Dashboard() {
 
   return (
     <div>
-      {/* Filter bar */}
-      <div className="mb-4 flex flex-wrap items-center gap-2">
+      {/* Search + Filter bar */}
+      <div className="mb-4 flex flex-col gap-3">
+        <div className="relative max-w-sm">
+          <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Buscar tarefas..."
+            className="pl-8"
+            aria-label="Buscar tarefas"
+          />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
         {PRIORITIES.map(({ value, label }) => (
           <Badge
             key={value}
@@ -171,6 +187,7 @@ export default function Dashboard() {
             Limpar filtros
           </Button>
         )}
+        </div>
       </div>
 
       {hasActiveFilters && (
