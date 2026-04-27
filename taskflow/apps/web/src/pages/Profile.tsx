@@ -75,7 +75,7 @@ export default function Profile() {
     reset,
     formState: { errors },
   } = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema as any),
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       name: user?.name ?? '',
       email: user?.email ?? '',

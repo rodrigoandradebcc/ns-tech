@@ -112,8 +112,7 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
     reset,
     formState: { errors },
   } = useForm<TaskFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(taskSchema as any),
+    resolver: zodResolver(taskSchema),
     defaultValues: buildDefaults(task, defaultStatus),
   });
 
