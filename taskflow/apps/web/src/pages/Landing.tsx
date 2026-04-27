@@ -12,6 +12,7 @@ import {
   Menu,
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
 import {
   Accordion,
@@ -432,23 +433,24 @@ function Navbar() {
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
           <a
             href="#features"
-            className="transition-colors hover:text-foreground"
+            className="transition-colors duration-300 ease-in-out hover:text-foreground"
           >
             Features
           </a>
           <a
             href="#pricing"
-            className="transition-colors hover:text-foreground"
+            className="transition-colors duration-300 ease-in-out hover:text-foreground"
           >
             Preços
           </a>
-          <a href="#faq" className="transition-colors hover:text-foreground">
+          <a href="#faq" className="transition-colors duration-300 ease-in-out hover:text-foreground">
             FAQ
           </a>
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
             Entrar
           </Button>
@@ -459,6 +461,7 @@ function Navbar() {
 
         {/* Mobile hamburger */}
         <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               render={
@@ -590,7 +593,7 @@ function Features() {
         <div className="grid gap-8 md:grid-cols-3">
           {FEATURES.map(({ icon: Icon, title, description }, i) => (
             <AnimateIn key={title} delay={i * 150}>
-              <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-md">
+              <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6 transition-[transform,box-shadow] duration-500 ease-in-out hover:-translate-y-1 hover:shadow-md">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
                   <Icon className="size-5 text-primary" />
                 </div>
@@ -622,7 +625,7 @@ function Testimonials() {
         <div className="grid gap-6 md:grid-cols-3">
           {TESTIMONIALS.map(({ initials, name, role, quote }, i) => (
             <AnimateIn key={name} delay={i * 150}>
-              <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6 transition-shadow duration-200 hover:shadow-md">
+              <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6 transition-shadow duration-500 ease-in-out hover:shadow-md">
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {quote}
                 </p>
@@ -665,7 +668,7 @@ function Pricing() {
               <AnimateIn key={name} delay={i * 150}>
                 <div
                   className={cn(
-                    "relative flex flex-col gap-6 rounded-xl border p-6 transition-[transform,box-shadow] duration-150 ease-out hover:-translate-y-1.5",
+                    "relative flex flex-col gap-6 rounded-xl border p-6 transition-[transform,box-shadow] duration-500 ease-in-out hover:-translate-y-1",
                     highlight
                       ? "border-primary bg-primary/5 shadow-md hover:shadow-xl"
                       : "border-border bg-card hover:shadow-lg",

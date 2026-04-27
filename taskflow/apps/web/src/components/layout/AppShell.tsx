@@ -47,6 +47,10 @@ export default function AppShell() {
                 <p className="text-xs text-muted-foreground">{user?.email}</p>
               </div>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                <Kanban className="size-4" />
+                Dashboard
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate('/profile')}>
                 <User className="size-4" />
                 Perfil
@@ -61,8 +65,10 @@ export default function AppShell() {
         </div>
       </header>
 
-      <main className="flex-1 pt-14 px-4 py-4 sm:px-6 sm:py-6">
-        <Outlet />
+      <main className="flex-1 pt-14 px-4 sm:px-6">
+        <div className="py-4 sm:py-6">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

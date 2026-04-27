@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'sonner';
 import { X, CalendarIcon, Archive, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -28,26 +27,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { useCreateTask, useUpdateTask, useArchiveTask } from '@/features/tasks/use-tasks';
 import type { Task, TaskStatus } from '@/types';
-
-function startOfToday() {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
-const taskSchema = z.object({
-  title: z.string().min(3, 'Mínimo 3 caracteres'),
-  description: z.string().optional(),
-  status: z.enum(['BACKLOG', 'IN_PROGRESS', 'REVIEW', 'DONE']),
-  priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']),
-  tags: z.array(z.string()).default([]),
-  dueDate: z
-    .date()
-    .min(startOfToday(), { message: 'Data não pode ser passada' })
-    .optional(),
-});
-
-type TaskFormValues = z.infer<typeof taskSchema>;
+import { taskSchema, startOfToday, type TaskFormValues } from '@/schemas/task.schema';
+import { STATUS_LABELS, PRIORITY_LABELS, PRIORITY_COLORS } from '@/enums/task.enums';
 
 function buildDefaults(task?: Task, defaultStatus?: TaskStatus): TaskFormValues {
   if (task) {
@@ -70,27 +51,6 @@ function buildDefaults(task?: Task, defaultStatus?: TaskStatus): TaskFormValues 
   };
 }
 
-const STATUS_LABELS: Record<string, string> = {
-  BACKLOG: 'Backlog',
-  IN_PROGRESS: 'Em Progresso',
-  REVIEW: 'Revisão',
-  DONE: 'Concluído',
-};
-
-const PRIORITY_LABELS: Record<string, string> = {
-  LOW: 'Baixa',
-  MEDIUM: 'Média',
-  HIGH: 'Alta',
-  URGENT: 'Urgente',
-};
-
-const PRIORITY_COLORS: Record<string, string> = {
-  LOW: 'text-muted-foreground',
-  MEDIUM: 'text-blue-600 dark:text-blue-400',
-  HIGH: 'text-orange-600 dark:text-orange-400',
-  URGENT: 'text-red-600 dark:text-red-400',
-};
-
 interface TaskModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -112,17 +72,20 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
     reset,
     formState: { errors },
   } = useForm<TaskFormValues>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(taskSchema as any),
+    resolver: zodResolver(taskSchema) as Resolver<TaskFormValues>,
     defaultValues: buildDefaults(task, defaultStatus),
   });
 
   const [tagInput, setTagInput] = useState('');
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
+    if (open) setTagInput('');
+  }
 
   useEffect(() => {
     if (open) {
       reset(buildDefaults(task, defaultStatus));
-      setTagInput('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -193,7 +156,9 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
                 <FormField label="Status" error={errors.status?.message}>
                   <Select value={field.value} onValueChange={(v) => field.onChange(v)}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Status" />
+                      <SelectValue placeholder="Status">
+                        {STATUS_LABELS[field.value] ?? field.value}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {(['BACKLOG', 'IN_PROGRESS', 'REVIEW', 'DONE'] as const).map((s) => (
@@ -214,7 +179,11 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
                 <FormField label="Prioridade" error={errors.priority?.message}>
                   <Select value={field.value} onValueChange={(v) => field.onChange(v)}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Prioridade" />
+                      <SelectValue placeholder="Prioridade">
+                        <span className={PRIORITY_COLORS[field.value]}>
+                          {PRIORITY_LABELS[field.value] ?? field.value}
+                        </span>
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {(['LOW', 'MEDIUM', 'HIGH', 'URGENT'] as const).map((p) => (
