@@ -8,11 +8,11 @@ A fullstack Kanban task manager with drag-and-drop, JWT auth, and a responsive U
 
 ## Stack
 
-| Layer    | Technology                                                                  |
-|----------|-----------------------------------------------------------------------------|
-| Frontend | Vite + React 19 + TypeScript + Tailwind v4 + shadcn (base-nova) + @dnd-kit |
-| Backend  | NestJS v11 + Prisma v6 + SQLite + class-validator + JWT                     |
-| Monorepo | pnpm workspaces                                                             |
+| Layer    | Technology                                                                                                  |
+|----------|-------------------------------------------------------------------------------------------------------------|
+| Frontend | Vite + React 19 + TypeScript + Tailwind v4 + shadcn (base-nova) + @dnd-kit + TanStack Query + React Hook Form + Zod + react-router-dom + Sonner |
+| Backend  | NestJS v11 + Prisma v6 + SQLite + class-validator + JWT (Passport)                                          |
+| Monorepo | pnpm workspaces                                                                                             |
 
 ---
 
@@ -27,8 +27,9 @@ A fullstack Kanban task manager with drag-and-drop, JWT auth, and a responsive U
 
 2. **Configure the API environment**
 
-   Create `apps/api/.env` (or copy from `.env.example`):
+   Create `apps/api/.env`:
    ```env
+   DATABASE_URL="file:./dev.db"
    JWT_SECRET=dev-secret-change-me
    ```
 
