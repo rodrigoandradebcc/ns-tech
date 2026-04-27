@@ -17,7 +17,7 @@ export default function AppShell() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center border-b border-border bg-background px-6">
+      <header className="fixed inset-x-0 top-0 z-50 flex h-14 items-center border-b border-border bg-background px-4 sm:px-6">
         <Link
           to="/dashboard"
           className="flex items-center gap-2 font-semibold text-foreground"
@@ -61,7 +61,7 @@ export default function AppShell() {
         </div>
       </header>
 
-      <main className="flex-1 pt-14 px-6 py-6">
+      <main className="flex-1 pt-14 px-4 py-4 sm:px-6 sm:py-6">
         <Outlet />
       </main>
     </div>

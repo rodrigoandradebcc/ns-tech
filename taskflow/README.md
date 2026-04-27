@@ -40,6 +40,11 @@ A fullstack Kanban task manager with drag-and-drop, JWT auth, and a responsive U
    pnpm prisma db seed
    ```
 
+   To dump the current database:
+   ```bash
+   sqlite3 apps/api/prisma/dev.db .dump > backup.sql
+   ```
+
 4. **Start the development servers**
    ```bash
    # From the monorepo root
@@ -58,6 +63,88 @@ A fullstack Kanban task manager with drag-and-drop, JWT auth, and a responsive U
 Email:    rod@taskflow.dev
 Password: 123456789
 ```
+
+---
+
+## E2E Testing
+
+Uses **[playwright-cli](https://github.com/microsoft/playwright-cli)** for interactive browser automation without writing test files.
+
+### Install
+
+```bash
+npm install -g @playwright/cli@latest
+```
+
+### Usage
+
+```bash
+# Open a browser session and navigate
+playwright-cli open http://localhost:5173
+
+# Inspect the page (returns element refs for interaction)
+playwright-cli snapshot
+
+# Interact using refs from the snapshot
+playwright-cli fill e16 "user@email.com"
+playwright-cli click e25
+playwright-cli screenshot --filename=result.png
+
+# Close when done
+playwright-cli close
+```
+
+### What was tested
+
+All 11 user stories were manually verified via playwright-cli:
+
+| Domain | User Story | Result |
+|--------|-----------|--------|
+| Landing | US-01 — Landing page pública | ✅ |
+| Landing | US-02 — Navegação pública | ✅ |
+| Auth | US-03 — Registro | ✅ |
+| Auth | US-04 — Login | ✅ (bug corrigido — ver commit `3844d69`) |
+| Auth | US-05 — Logout | ✅ |
+| Board | US-06 — Visualização do quadro | ✅ |
+| Board | US-07 — Criar tarefa | ✅ |
+| Board | US-08 — Editar tarefa | ✅ |
+| Board | US-09 — Arquivar/Deletar | ✅ |
+| Profile | US-10 — Editar perfil | ✅ |
+| Profile | US-11 — Preferências (dark mode) | ✅ |
+
+---
+
+## Deploy (Production)
+
+Hosted on a **Hostinger VPS** managed via **EasyPanel**.
+
+| Component | Setup |
+|-----------|-------|
+| VPS       | Hostinger — Ubuntu 24.04 |
+| Panel     | EasyPanel (Docker-based, self-hosted PaaS) |
+| API       | NestJS container served via EasyPanel app |
+| Web       | Static build (`pnpm build`) served via EasyPanel / Nginx |
+| Database  | SQLite file persisted on the VPS volume |
+
+### Steps to deploy
+
+1. Build the frontend:
+   ```bash
+   cd apps/web && pnpm build
+   ```
+
+2. In EasyPanel, create two apps — one for the API (Node image) and one for the web (static/Nginx).
+
+3. Set environment variables in EasyPanel for the API app:
+   ```env
+   DATABASE_URL="file:./prod.db"
+   JWT_SECRET=<strong-random-secret>
+   ```
+
+4. On first deploy, run migrations inside the API container:
+   ```bash
+   npx prisma migrate deploy
+   ```
 
 ---
 
