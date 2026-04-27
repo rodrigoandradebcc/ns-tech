@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -118,9 +118,9 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
   });
 
   const [tagInput, setTagInput] = useState('');
-  const prevOpenRef = useRef(open);
-  if (prevOpenRef.current !== open) {
-    prevOpenRef.current = open;
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
     if (open) setTagInput('');
   }
 
