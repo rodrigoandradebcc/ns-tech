@@ -112,7 +112,8 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
     reset,
     formState: { errors },
   } = useForm<TaskFormValues>({
-    resolver: zodResolver(taskSchema) as unknown as Resolver<TaskFormValues>,
+    // @ts-expect-error @hookform/resolvers@5.2.2 type-checks Zod minor version; safe at runtime
+    resolver: zodResolver(taskSchema) as Resolver<TaskFormValues>,
     defaultValues: buildDefaults(task, defaultStatus),
   });
 
