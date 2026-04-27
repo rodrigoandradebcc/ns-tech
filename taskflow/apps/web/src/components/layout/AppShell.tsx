@@ -61,8 +61,10 @@ export default function AppShell() {
         </div>
       </header>
 
-      <main className="flex-1 pt-14 px-4 py-4 sm:px-6 sm:py-6">
-        <Outlet />
+      <main className="flex-1 pt-14 px-4 sm:px-6">
+        <div className="py-4 sm:py-6">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
