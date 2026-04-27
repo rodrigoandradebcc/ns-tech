@@ -27,7 +27,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { useCreateTask, useUpdateTask, useArchiveTask } from '@/features/tasks/use-tasks';
 import type { Task, TaskStatus } from '@/types';
-import { taskSchema, type TaskFormValues } from '@/schemas/task.schema';
+import { taskSchema, startOfToday, type TaskFormValues } from '@/schemas/task.schema';
 import { STATUS_LABELS, PRIORITY_LABELS, PRIORITY_COLORS } from '@/enums/task.enums';
 
 function buildDefaults(task?: Task, defaultStatus?: TaskStatus): TaskFormValues {
@@ -72,7 +72,6 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
     reset,
     formState: { errors },
   } = useForm<TaskFormValues>({
-    // @ts-expect-error @hookform/resolvers@5.2.2 type-checks Zod minor version; safe at runtime
     resolver: zodResolver(taskSchema) as Resolver<TaskFormValues>,
     defaultValues: buildDefaults(task, defaultStatus),
   });

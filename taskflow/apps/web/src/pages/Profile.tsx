@@ -59,7 +59,6 @@ export default function Profile() {
     reset,
     formState: { errors },
   } = useForm<ProfileFormValues>({
-    // @ts-expect-error @hookform/resolvers@5.2.2 type-checks Zod minor version; safe at runtime
     resolver: zodResolver(profileSchema) as Resolver<ProfileFormValues>,
     defaultValues: {
       name: user?.name ?? '',
