@@ -53,7 +53,9 @@ export default function Card({ task, className }: CardProps) {
   return (
     <div
       className={cn("rounded-lg border border-border bg-card p-3 shadow-xs flex flex-col gap-2 cursor-pointer hover:border-primary/40 transition-colors", className)}
-      onClick={() => setEditOpen(true)}
+      onClick={(e) => {
+        if ((e.currentTarget as HTMLElement).contains(e.target as Node)) setEditOpen(true);
+      }}
     >
       {/* Header row: title + 3-dots */}
       <div className="flex items-start justify-between gap-2">

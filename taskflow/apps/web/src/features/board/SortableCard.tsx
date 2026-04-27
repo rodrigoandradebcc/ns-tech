@@ -14,7 +14,7 @@ export default function SortableCard({ task }: SortableCardProps) {
   return (
     <div
       ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      style={{ transform: CSS.Transform.toString(transform), transition, touchAction: 'none' }}
       {...attributes}
       {...listeners}
     >
