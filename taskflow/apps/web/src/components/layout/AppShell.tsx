@@ -47,6 +47,10 @@ export default function AppShell() {
                 <p className="text-xs text-muted-foreground">{user?.email}</p>
               </div>
               <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                <Kanban className="size-4" />
+                Dashboard
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate('/profile')}>
                 <User className="size-4" />
                 Perfil
