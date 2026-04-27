@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -73,7 +73,7 @@ function buildDefaults(task?: Task, defaultStatus?: TaskStatus): TaskFormValues 
 const STATUS_LABELS: Record<string, string> = {
   BACKLOG: 'Backlog',
   IN_PROGRESS: 'Em Progresso',
-  REVIEW: 'Revisão',
+  REVIEW: 'Review',
   DONE: 'Concluído',
 };
 
@@ -118,11 +118,15 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
   });
 
   const [tagInput, setTagInput] = useState('');
+  const prevOpenRef = useRef(open);
+  if (prevOpenRef.current !== open) {
+    prevOpenRef.current = open;
+    if (open) setTagInput('');
+  }
 
   useEffect(() => {
     if (open) {
       reset(buildDefaults(task, defaultStatus));
-      setTagInput('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);

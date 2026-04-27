@@ -19,7 +19,7 @@ import type { Task, TaskStatus } from '@/types';
 const COLUMNS: { status: TaskStatus; label: string }[] = [
   { status: 'BACKLOG', label: 'Backlog' },
   { status: 'IN_PROGRESS', label: 'Em Progresso' },
-  { status: 'REVIEW', label: 'Revisão' },
+  { status: 'REVIEW', label: 'Review' },
   { status: 'DONE', label: 'Concluído' },
 ];
 
