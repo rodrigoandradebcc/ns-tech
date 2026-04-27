@@ -668,7 +668,7 @@ function Pricing() {
               <AnimateIn key={name} delay={i * 150}>
                 <div
                   className={cn(
-                    "relative flex flex-col gap-6 rounded-xl border p-6 transition-[transform,box-shadow] duration-300 ease-in-out hover:-translate-y-1.5",
+                    "relative flex flex-col gap-6 rounded-xl border p-6 transition-[transform,box-shadow] duration-500 ease-in-out hover:-translate-y-1",
                     highlight
                       ? "border-primary bg-primary/5 shadow-md hover:shadow-xl"
                       : "border-border bg-card hover:shadow-lg",
