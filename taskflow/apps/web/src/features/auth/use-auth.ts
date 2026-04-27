@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from './auth.store';
 import { authApi } from './auth.api';
+import { queryClient } from '@/lib/queryClient';
 
 export function useAuth() {
   const { user, token, setAuth, clearAuth } = useAuthStore();
@@ -22,6 +23,7 @@ export function useAuth() {
 
   function logout() {
     clearAuth();
+    queryClient.clear();
     navigate('/');
   }
 
