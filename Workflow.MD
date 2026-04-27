@@ -697,3 +697,106 @@ Recomendação: B (analytics) é a mais "demo-friendly" — mostra resultado vis
 - **8h+**: Prompt 14 ou descanso/buffer
 
 Se atrasar em qualquer ponto, **corte profile (Prompt 12) ou bônus (14) — nunca corte polish (13)**. Avaliador percebe mais a falta de polish do que a ausência de uma feature.
+
+---
+
+## Sessões de refinamento (pós-playbook)
+
+### Sessão de debug — Bug fixes de interação (26-27/04)
+
+**Problema investigado:** Modal de edição de tarefa "não fechava" — na prática, fechava e reabria imediatamente.
+
+**Diagnóstico colaborativo com IA:**
+Analisei o DOM renderizado e percebo que o Dialog do shadcn (Base UI) usa um portal — renderiza em `document.body`, fora da árvore DOM do Card. Mas o `onClick` do Card disparava quando o botão de fechar era clicado dentro do portal, porque o evento bolia pelo React tree (não pelo DOM tree). A IA identificou que `e.currentTarget.contains(e.target)` retorna `false` para elementos dentro do portal, permitindo um guard preciso.
+
+**Prompt usado:**
+
+```
+O modal de tarefa fecha mas reabre imediatamente quando clico no X. Analise:
+- Card.tsx: onClick chama setEditOpen(true)  
+- dialog.tsx: construído em cima de Base UI (portal renderiza em document.body)
+- SortableCard.tsx: listeners do dnd-kit espalhados no wrapper
+
+Explique por que o click no botão de fechar dispara o onClick do Card mesmo
+o Dialog sendo um portal, e corrija sem usar stopPropagation globalmente.
+```
+
+**Fix aplicado em `Card.tsx`:**
+```tsx
+// Antes
+onClick={() => setEditOpen(true)}
+
+// Depois — portal DOM está fora de currentTarget, contains() retorna false
+onClick={(e) => {
+  if ((e.currentTarget as HTMLElement).contains(e.target as Node)) setEditOpen(true);
+}}
+```
+
+**Segundo problema:** Drag & drop não funcionava em mobile — toque iniciava scroll da página antes de acumular os 8px de ativação do `PointerSensor`.
+
+**Fix aplicado em `SortableCard.tsx`:**
+```tsx
+// Adicionar touchAction: 'none' ao style do wrapper
+style={{ transform: CSS.Transform.toString(transform), transition, touchAction: 'none' }}
+```
+Isso delega todos os eventos de toque ao pointer handler do dnd-kit antes do browser interceptar para scroll.
+
+---
+
+### Sessão de feature — Busca textual no Dashboard (27/04)
+
+**Prompt usado:**
+
+```
+Adicione campo de busca textual ao Dashboard.
+- Input com ícone Search à esquerda, placeholder "Buscar tarefas..."
+- Filtrar tasks pelo título e descrição (case-insensitive)
+- Integrar com o estado de filtros existente (hasActiveFilters, clearFilters)
+- Manter os chips de prioridade e tag funcionando em conjunto
+- Layout: search acima dos chips, max-w-sm
+```
+
+---
+
+## Como usei IA neste projeto
+
+### 1. Contexto estruturado desde o início
+
+Criei um system prompt com restrições explícitas antes de qualquer prompt de código:
+
+> *"Simples > complexo. Não introduza dependências, abstrações ou padrões que eu não pedi. Não sugira Docker, CI/CD, Storybook, Husky. Entregue código completo, não pseudocódigo."*
+
+Isso eliminou a tendência da IA de over-engineer — cada resposta foi direta ao problema.
+
+### 2. Prompts incrementais com contexto acumulado
+
+Cada prompt pressupunha o anterior. Em vez de "construa um app Kanban", a sequência foi:
+
+```
+Prompt 0 → estrutura monorepo
+Prompt 1 → Prisma schema + seed
+Prompt 2 → módulo auth (NestJS)
+...
+```
+
+A IA nunca precisou adivinhar o estado atual — o contexto era dado explicitamente.
+
+### 3. Validação crítica do output
+
+Não aceitei código gerado cegamente. Exemplos de intervenções manuais:
+- Downgrade de Prisma v7 → v6 (v7 exige driver adapter para SQLite, a IA sugeriu v7)
+- Remoção de `prisma.config.ts` desnecessário
+- Substituição de `zodResolver` por `standardSchemaResolver` para compatibilidade com Zod v3
+
+### 4. Debugging colaborativo
+
+Para o bug do modal, descrevi o comportamento observado + estrutura do DOM (portal), e a IA propôs a análise do `currentTarget.contains()`. Eu validei o raciocínio antes de aplicar — não apenas copiei a solução.
+
+### 5. Memória persistente entre sessões
+
+Usei `claude-mem` para preservar contexto entre sessões (stack, decisões de design, tokens do Figma). Cada sessão nova começava com contexto completo sem precisar re-explicar o projeto.
+
+### Ferramentas utilizadas
+- **Claude Code** (CLI) com `claude-mem` para memória entre sessões
+- **Figma MCP** para extrair tokens de design diretamente da spec
+- Revisão manual de cada diff antes do commit
