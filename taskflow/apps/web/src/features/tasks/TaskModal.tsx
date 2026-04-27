@@ -197,7 +197,9 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
                 <FormField label="Status" error={errors.status?.message}>
                   <Select value={field.value} onValueChange={(v) => field.onChange(v)}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Status" />
+                      <SelectValue placeholder="Status">
+                        {STATUS_LABELS[field.value] ?? field.value}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {(['BACKLOG', 'IN_PROGRESS', 'REVIEW', 'DONE'] as const).map((s) => (
@@ -218,7 +220,11 @@ export default function TaskModal({ open, onOpenChange, task, defaultStatus }: T
                 <FormField label="Prioridade" error={errors.priority?.message}>
                   <Select value={field.value} onValueChange={(v) => field.onChange(v)}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Prioridade" />
+                      <SelectValue placeholder="Prioridade">
+                        <span className={PRIORITY_COLORS[field.value]}>
+                          {PRIORITY_LABELS[field.value] ?? field.value}
+                        </span>
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {(['LOW', 'MEDIUM', 'HIGH', 'URGENT'] as const).map((p) => (
