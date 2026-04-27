@@ -529,7 +529,7 @@ function Navbar() {
 function Hero() {
   const navigate = useNavigate();
   return (
-    <section className="mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 py-24 sm:px-6 lg:flex-row lg:py-32">
+    <section className="mx-auto flex max-w-6xl flex-col items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:flex-row lg:py-32">
       <div className="flex flex-1 flex-col gap-6 text-center lg:text-left">
         <Badge
           variant="secondary"
@@ -577,9 +577,9 @@ function Hero() {
 
 function Features() {
   return (
-    <section id="features" className="border-t border-border bg-muted/30 py-24">
+    <section id="features" className="border-t border-border bg-muted/30 py-12 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateIn className="mb-16 text-center">
+        <AnimateIn className="mb-8 text-center lg:mb-16">
           <h2 className="font-['Inter'] text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Feito para quem não quer complicar
           </h2>
@@ -609,9 +609,9 @@ function Features() {
 
 function Testimonials() {
   return (
-    <section className="py-24">
+    <section className="py-12 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateIn className="mb-16 text-center">
+        <AnimateIn className="mb-8 text-center lg:mb-16">
           <h2 className="font-['Inter'] text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             O que dizem os usuários
           </h2>
@@ -649,9 +649,9 @@ function Testimonials() {
 function Pricing() {
   const navigate = useNavigate();
   return (
-    <section id="pricing" className="border-t border-border bg-muted/30 py-24">
+    <section id="pricing" className="border-t border-border bg-muted/30 py-12 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <AnimateIn className="mb-16 text-center">
+        <AnimateIn className="mb-8 text-center lg:mb-16">
           <h2 className="font-['Inter'] text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Planos simples, sem surpresas
           </h2>
@@ -718,9 +718,9 @@ function Pricing() {
 
 function Faq() {
   return (
-    <section id="faq" className="py-24">
+    <section id="faq" className="py-12 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
-        <AnimateIn className="mb-12 text-center">
+        <AnimateIn className="mb-8 text-center lg:mb-12">
           <h2 className="font-['Inter'] text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Perguntas frequentes
           </h2>
@@ -776,7 +776,7 @@ function Footer() {
                 placeholder="seu@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-8 rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring/50"
+                className="h-8 min-w-0 flex-1 rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring/50"
               />
               <Button type="submit" size="sm">
                 Inscrever

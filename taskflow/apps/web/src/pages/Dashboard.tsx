@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+      <div className="flex flex-col items-center justify-center gap-4 py-16 text-center sm:py-24">
         <AlertCircle className="size-10 text-destructive" />
         <div>
           <p className="font-medium text-foreground">Não foi possível carregar as tarefas</p>
@@ -115,7 +115,7 @@ export default function Dashboard() {
   if (tasks.length === 0) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+        <div className="flex flex-col items-center justify-center gap-4 py-16 text-center sm:py-24">
           <svg
             viewBox="0 0 64 64"
             className="size-16 text-muted-foreground/40"
