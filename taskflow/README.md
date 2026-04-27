@@ -61,6 +61,40 @@ Password: 123456789
 
 ---
 
+## Deploy (Production)
+
+Hosted on a **Hostinger VPS** managed via **EasyPanel**.
+
+| Component | Setup |
+|-----------|-------|
+| VPS       | Hostinger — Ubuntu 24.04 |
+| Panel     | EasyPanel (Docker-based, self-hosted PaaS) |
+| API       | NestJS container served via EasyPanel app |
+| Web       | Static build (`pnpm build`) served via EasyPanel / Nginx |
+| Database  | SQLite file persisted on the VPS volume |
+
+### Steps to deploy
+
+1. Build the frontend:
+   ```bash
+   cd apps/web && pnpm build
+   ```
+
+2. In EasyPanel, create two apps — one for the API (Node image) and one for the web (static/Nginx).
+
+3. Set environment variables in EasyPanel for the API app:
+   ```env
+   DATABASE_URL="file:./prod.db"
+   JWT_SECRET=<strong-random-secret>
+   ```
+
+4. On first deploy, run migrations inside the API container:
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+---
+
 ## Technical Decisions
 
 - **SQLite** — Zero-config persistence ideal for a study project; no infra to manage. In production, swapping to PostgreSQL requires only a Prisma datasource change.
