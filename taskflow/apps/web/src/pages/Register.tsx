@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { FormField } from '@/components/ui/form-field';
 import { useAuth } from '@/features/auth/use-auth';
 import { AuthPageShell } from '@/components/layout/auth-page-shell';
@@ -67,9 +68,8 @@ export default function Register() {
         </FormField>
 
         <FormField label="Senha" htmlFor="password" error={errors.password?.message}>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             autoComplete="new-password"
             placeholder="No mínimo 8 caracteres"
             aria-invalid={!!errors.password}
@@ -82,9 +82,8 @@ export default function Register() {
           htmlFor="confirmPassword"
           error={errors.confirmPassword?.message}
         >
-          <Input
+          <PasswordInput
             id="confirmPassword"
-            type="password"
             autoComplete="new-password"
             placeholder="Repita a senha"
             aria-invalid={!!errors.confirmPassword}
