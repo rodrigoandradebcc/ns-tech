@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FormField } from '@/components/ui/form-field';
 import { useAuth } from '@/features/auth/use-auth';
@@ -65,9 +66,8 @@ export default function Login() {
         </FormField>
 
         <FormField label="Senha" htmlFor="password" error={errors.password?.message}>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             autoComplete="current-password"
             placeholder="••••••••"
             aria-invalid={!!errors.password}
