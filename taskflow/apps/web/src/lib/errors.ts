@@ -13,10 +13,10 @@ const HTTP_MESSAGES: Record<number, string> = {
 export function getErrorMessage(error: unknown, fallback = 'Algo deu errado. Tente novamente.'): string {
   if (axios.isAxiosError(error)) {
     if (error.response) {
-      const msg = HTTP_MESSAGES[error.response.status];
-      if (msg) return msg;
       const serverMsg = error.response.data?.message;
       if (typeof serverMsg === 'string') return serverMsg;
+      const msg = HTTP_MESSAGES[error.response.status];
+      if (msg) return msg;
     }
     if (error.request) return 'Sem conexão com o servidor.';
   }

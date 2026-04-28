@@ -100,8 +100,12 @@ export class TasksService {
   }
 
   private validateDueDate(dueDate?: string) {
-    if (dueDate && new Date(dueDate) < new Date()) {
-      throw new BadRequestException('dueDate não pode ser no passado');
+    if (dueDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (new Date(dueDate) < today) {
+        throw new BadRequestException('dueDate não pode ser no passado');
+      }
     }
   }
 
