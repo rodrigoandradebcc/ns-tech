@@ -42,7 +42,11 @@ export class TasksService {
     return this.serializeTask(task);
   }
 
-  async update(id: string, userId: string, dto: UpdateTaskDto): Promise<SafeTask> {
+  async update(
+    id: string,
+    userId: string,
+    dto: UpdateTaskDto,
+  ): Promise<SafeTask> {
     await this.findOwned(id, userId);
 
     this.validateDueDate(dto.dueDate);
@@ -109,7 +113,7 @@ export class TasksService {
     }
   }
 
-  private serializeTask(task: Task): SafeTask {
+  private serializeTask(this: void, task: Task): SafeTask {
     const { tags, ...rest } = task;
     return { ...rest, tags: JSON.parse(tags) as string[] };
   }
